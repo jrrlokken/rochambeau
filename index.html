@@ -8,49 +8,87 @@
 </head>
 <body>
   <script>
-
-    let playerSelection = prompt("Please choose: Rock, Paper or Scissors").toLowerCase();
-    const computerSelection = computerPlay();
-    let computerWins = `Computer wins, ${computerSelection} beats ${playerSelection}`;
-    let playerWins = `Computer loses, ${playerSelection} beats ${computerSelection}`;
     
-    function computerPlay() {
+    let computerScore = 0;
+    let playerScore = 0;
+    let playerSelection = "";
+
+    function computerPlay(){
       const choices = ['rock', 'paper', 'scissors'];
       return choices[Math.floor(Math.random() * 3)];
     }
-    function playRound(playerSelection, computerSelection) {
-      if(playerSelection === computerSelection) {
-        return "It's a draw!";
-      } else if (playerSelection === 'scissors') {
-        if(computerSelection === 'paper') {
-          return playerWins;
-        } else {
-          return computerWins;
-        }
-      } else if (playerSelection === 'rock') {
-        if(computerSelection === 'scissors') {
-          return playerWins;
-        } else {
-          return computerWins;
-        }
-      } else if (playerSelection === 'paper') {
-        if(computerSelection === 'rock') {
-          return playerWins;
-        } else {
-          return computerWins;
-        }
+
+    function getInput() {
+      let userInput = prompt("Please enter rock, paper or scissors");
+      playerSelection = userInput.toLowerCase();
+      if ((playerSelection === 'rock') || (playerSelection === 'paper') || (playerSelection === 'scissors')) {
+        return playerSelection;
       } else {
-        return computerWins;
+        console.log("Try again :(");
+        exit();
       }
-      
-      function game() {
-        for(let i = 5; i > 0; i--) {
-          console.log(playRound(playerSelection, computerSelection));
-        }
-      }
-      
     }
     
+    // let computerScore = 0;
+    // let playerScore = 0;
+    // let computerWins = `Computer wins, ${computerScore} to ${playerScore}`;
+    // let playerWins = `Player wins, ${playerScore} to ${computerScore}`;
+
+    
+
+    function playRound(playerSelection, computerSelection) {
+      let computerSelection = computerPlay();
+      if(playerSelection === 'rock') {
+        if(computerSelection === 'paper') {
+          console.log("You lose.");
+          computerScore++;
+        } else if(computerSelection === 'scissors') {
+          console.log("You win!");
+          playerScore++;
+        } else {
+          console.log("It's a draw...");
+        }
+      } else if(playerSelection === 'paper') {
+        if(computerSelection === 'scissors') {
+          console.log("You lose.");
+          computerScore++;
+        } else if(computerSelection === 'rock') {
+          console.log("You win!");
+          playerScore++;
+        } else {
+          console.log("It's a draw...");
+        }
+      } else if(playerSelection === 'scissors') {
+        if(computerSelection === 'rock') {
+          console.log("You lose.");
+          computerScore++;
+        } else if(computerSelection === 'paper') {
+          console.log("You win!");
+          playerScore++;
+        } else {
+          console.log("It's a draw...");
+        }
+      }
+    }
+    
+    function game() {
+      console.log("Welcome to Rochambeau");
+      let rounds = 1;
+      while(rounds <= 5) {
+        getInput();
+        computerPlay();
+        console.log("You: " + playerSelection + ", Computer: " + computerSelection);
+        playRound(playerSelection, computerSelection);
+        console.log("Your score: " + playerScore + ", Computer score: " + computerScore);
+        rounds++;
+        if(rounds === 6) {
+          let end = ((playerScore < computerScore) ? "You lose the game" : (computerScore < playerScore) ? "You win the game!" : "Nobody wins!");
+          console.log(end);
+        }
+      }
+    }
+
+    game();
   
   </script>
   
