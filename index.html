@@ -8,85 +8,123 @@
 </head>
 <body>
   <script>
-    
-    let computerScore = 0;
-    let playerScore = 0;
-    let playerSelection = "";
 
-    function computerPlay(){
-      const choices = ['rock', 'paper', 'scissors'];
-      return choices[Math.floor(Math.random() * 3)];
+    // computer randomly chooses from the array
+    const computerPlay = () => {
+      const arr = ['rock', 'paper', 'scissors'];
+      return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    function getInput() {
-      let userInput = prompt("Please enter rock, paper or scissors");
-      playerSelection = userInput.toLowerCase();
-      if ((playerSelection === 'rock') || (playerSelection === 'paper') || (playerSelection === 'scissors')) {
-        return playerSelection;
-      } else {
-        console.log("Try again :(");
-        exit();
+    const game = () => {
+      // Initialize scores
+      let computerScore = 0;
+      let playerScore = 0;
+
+      // fixed to 5 rounds, best of 5 wins
+      for (let round = 0; round <= 5; round ++) {
+        // check for winning condition, break if found
+        if (round === 5) {
+          if (computerScore > playerScore) {
+            return console.log(`Computer wins, ${computerScore} to ${playerScore}`);
+          } else if (playerScore > computerScore) {
+            return console.log(`Player wins, ${playerScore} to ${computerScore}`);
+          }
+        }
+        let getInput = prompt("Please choose: Rock, Paper or Scissors").toLowerCase();
+        console.log(play(getInput, computerPlay()));
       }
-    }
-    
-    // let computerScore = 0;
-    // let playerScore = 0;
-    // let computerWins = `Computer wins, ${computerScore} to ${playerScore}`;
-    // let playerWins = `Player wins, ${playerScore} to ${computerScore}`;
 
-    
-
-    function playRound(playerSelection, computerSelection) {
-      let computerSelection = computerPlay();
-      if(playerSelection === 'rock') {
-        if(computerSelection === 'paper') {
-          console.log("You lose.");
-          computerScore++;
-        } else if(computerSelection === 'scissors') {
-          console.log("You win!");
-          playerScore++;
-        } else {
-          console.log("It's a draw...");
-        }
-      } else if(playerSelection === 'paper') {
-        if(computerSelection === 'scissors') {
-          console.log("You lose.");
-          computerScore++;
-        } else if(computerSelection === 'rock') {
-          console.log("You win!");
-          playerScore++;
-        } else {
-          console.log("It's a draw...");
-        }
-      } else if(playerSelection === 'scissors') {
-        if(computerSelection === 'rock') {
-          console.log("You lose.");
-          computerScore++;
-        } else if(computerSelection === 'paper') {
-          console.log("You win!");
-          playerScore++;
-        } else {
-          console.log("It's a draw...");
+      function play(player, computer) {
+        if (player === computer) {
+          return "It's a draw!";
+        } else if (player === 'scissors') {
+          if (computer === 'paper') {
+            playerScore ++;
+            return `Computer loses, ${player} beats ${computer}`;
+          } else {
+            computerScore ++;
+            return `Computer wins, ${computer} beats ${player}`;
+          }
+        } else if (player === 'rock') {
+          if (computer === 'scissors') {
+            playerScore ++;
+            return `Computer loses, ${player} beats ${computer}`;
+          } else {
+            computerScore ++;
+            return `Computer wins, ${computer} beats ${player}`;
+          }
+        } else if (player === 'paper') {
+          if (computer === 'rock') {
+            playerScore ++;
+            return `Computer loses, ${player} beats ${computer}`;
+          } else {
+            computerScore ++;
+            return `Computer wins, ${computer} beats ${player}`;
+          }
         }
       }
     }
+    // function getInput() {
+    //   playerSelection = userInput.toLowerCase();
+    //   if ((playerSelection === 'rock') || (playerSelection === 'paper') || (playerSelection === 'scissors')) {
+    //     return playerSelection;
+    //   } else {
+    //     console.log("Try again :(");
+    //     exit();
+    //   }
+    // }
     
-    function game() {
-      console.log("Welcome to Rochambeau");
-      let rounds = 1;
-      while(rounds <= 5) {
-        getInput();
-        computerPlay();
-        console.log("You: " + playerSelection + ", Computer: " + computerSelection);
-        playRound(playerSelection, computerSelection);
-        console.log("Your score: " + playerScore + ", Computer score: " + computerScore);
-        rounds++;
-        if(rounds === 6) {
-          let end = ((playerScore < computerScore) ? "You lose the game" : (computerScore < playerScore) ? "You win the game!" : "Nobody wins!");
-          console.log(end);
-        }
-      }
-    }
+    // function playRound(playerSelection, computerSelection) {
+    //   computerSelection = computerPlay();
+    //   if(playerSelection === 'rock') {
+    //     if(computerSelection === 'paper') {
+    //       console.log("You lose.");
+    //       computerScore++;
+    //     } else if(computerSelection === 'scissors') {
+    //       console.log("You win!");
+    //       playerScore++;
+    //     } else {
+    //       console.log("It's a draw...");
+    //     }
+    //   } else if(playerSelection === 'paper') {
+    //     if(computerSelection === 'scissors') {
+    //       console.log("You lose.");
+    //       computerScore++;
+    //     } else if(computerSelection === 'rock') {
+    //       console.log("You win!");
+    //       playerScore++;
+    //     } else {
+    //       console.log("It's a draw...");
+    //     }
+    //   } else if(playerSelection === 'scissors') {
+    //     if(computerSelection === 'rock') {
+    //       console.log("You lose.");
+    //       computerScore++;
+    //     } else if(computerSelection === 'paper') {
+    //       console.log("You win!");
+    //       playerScore++;
+    //     } else {
+    //       console.log("It's a draw...");
+    //     }
+    //   }
+    // }
+    
+    // function game() {
+    //   console.log("Welcome to Rochambeau");
+    //   while(rounds <= 5) {
+    //     end = false
+    //     playerSelection = getInput();
+    //     computerSelection = computerPlay();
+    //     playRound(playerSelection, computerSelection);
+    //     console.log("You: " + playerSelection + ", Computer: " + computerSelection);
+    //     console.log("Your score: " + playerScore + ", Computer score: " + computerScore);
+    //     rounds++;
+    //     if(rounds === 6) {
+    //       let end = ((playerScore < computerScore) ? "You lose the game" : (computerScore < playerScore) ? "You win the game!" : "Nobody wins!");
+    //       console.log(end);
+    //     }
+    //   }
+    // }}
 
     game();
   
